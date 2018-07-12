@@ -7,10 +7,13 @@ function update() {
   $todoList.innerHTML = "";
   for (const item of TODOS) {
     const $li = document.createElement("li");
+    // $li.setAttribute("id",item.id);
+
     if (item.done) {
       $li.classList.add("completed");
     }
     $todoList.appendChild($li);
+
 
     // Toggle button
     const $toggle = document.createElement("input");
@@ -34,16 +37,16 @@ function update() {
     
     $li.appendChild($button);
     
-  function onDeleteTodo(id){
+  // function onDeleteTodo(id){
 
-    // const a2=$button.parentNode;
-    $button.parentNode.parentElement.removeChild($button.parentNode);
-    // console.log(a2);
-    TODOS = TODOS.filter(todo=> todo.id !== id);
-    // console.log(TODOS);
-    update();
-    //e.target.parentElement.parentElement.removeChild(e.target.parentElement);
-  }
+  //   // const a2=$button.parentNode;
+  //   $button.parentNode.parentElement.removeChild($button.parentNode);
+  //   // console.log(a2);
+  //   TODOS = TODOS.filter(todo=> todo.id !== id);
+  //   // console.log(TODOS);
+  //   update();
+  //   //e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+  // }
 }
 
   
@@ -64,6 +67,12 @@ function onToggleTodo(id) {
   todo.done = !todo.done;
 
   update();
+}
+function onDeleteTodo(id){
+
+  TODOS=TODOS.filter(todo=> todo.id !== id)
+
+ update();
 }
 
 function onNewTodo(e) {
