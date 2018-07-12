@@ -1,4 +1,5 @@
 let TODOS = [];
+const $todoList = document.querySelector(".todo-list");
 
 function update() {
   const $todoList = document.querySelector(".todo-list");
@@ -20,7 +21,7 @@ function update() {
     }
     $toggle.addEventListener("change", onToggleTodo.bind(null, item.id));
     $li.appendChild($toggle);
-
+    
     // Label
     const $label = document.createElement("label");
     $label.innerHTML = item.title;
@@ -29,10 +30,24 @@ function update() {
     // Delete button
     const $button = document.createElement("button");
     $button.className = "destroy";
+    $button.addEventListener('click',onDeleteTodo.bind(null, item.id));
+    
     $li.appendChild($button);
-  }
+    
+  function onDeleteTodo(id){
 
-  //set the counter
+    // const a2=$button.parentNode;
+    $button.parentNode.parentElement.removeChild($button.parentNode);
+    // console.log(a2);
+    TODOS = TODOS.filter(todo=> todo.id !== id);
+    // console.log(TODOS);
+    update();
+    //e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+  }
+}
+
+  
+  //Set The Counter
   const $count = TODOS.filter(todo=> todo.done === false).length;
   if ($count === 1)
   $todoCount.innerHTML=$count +' item left' ;
@@ -42,10 +57,12 @@ function update() {
   document.querySelector(".main").style.display = "block";
 }
 
+
 function onToggleTodo(id) {
   const todo = TODOS.find(todo => todo.id === id);
   // TODOS.find(function(todo) { return todo.id === id; });
   todo.done = !todo.done;
+
   update();
 }
 
