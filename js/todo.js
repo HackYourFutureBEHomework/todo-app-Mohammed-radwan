@@ -13,8 +13,6 @@ function update() {
       $li.classList.add("completed");
     }
     $todoList.appendChild($li);
-
-
     // Toggle button
     const $toggle = document.createElement("input");
     $toggle.className = "toggle";
@@ -34,9 +32,15 @@ function update() {
     const $button = document.createElement("button");
     $button.className = "destroy";
     $button.addEventListener('click',onDeleteTodo.bind(null, item.id));
-    
     $li.appendChild($button);
+
     
+    //completed Items
+    const $completed=TODOS.filter(todo=>todo.done===true);
+    console.log($completed.length);
+    if($completed.length>0){
+    document.querySelector('.clear-completed').style.display="block";
+    }
   // function onDeleteTodo(id){
 
   //   // const a2=$button.parentNode;
@@ -47,6 +51,7 @@ function update() {
   //   update();
   //   //e.target.parentElement.parentElement.removeChild(e.target.parentElement);
   // }
+
 }
 
   
@@ -56,8 +61,15 @@ function update() {
   $todoCount.innerHTML=$count +' item left' ;
   else
   $todoCount.innerHTML=$count +' items left' ;
+  
+  //Hide the main section if the list is empty
+  if(TODOS.length!==0){
+    document.querySelector(".main").style.display = "block";
+    console.log(TODOS);
+  }else{
+    document.querySelector(".main").style.display = "none";
 
-  document.querySelector(".main").style.display = "block";
+  }
 }
 
 
@@ -69,7 +81,7 @@ function onToggleTodo(id) {
   update();
 }
 function onDeleteTodo(id){
-
+// const $selector=document.querySelector(id);
   TODOS=TODOS.filter(todo=> todo.id !== id)
 
  update();
