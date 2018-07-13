@@ -37,38 +37,33 @@ function update() {
     
     //completed Items
     const $completed=TODOS.filter(todo=>todo.done===true);
-    console.log($completed.length);
-    if($completed.length>0){
-    document.querySelector('.clear-completed').style.display="block";
-    }
-  // function onDeleteTodo(id){
+    const $clearCompleted =document.querySelector('.clear-completed');
+    // console.log($completed.length);
+      if($completed.length>0)
+      document.querySelector('.clear-completed').style.display="block";
+      else
+      document.querySelector('.clear-completed').style.display="none";
+    $clearCompleted.addEventListener("click",completedTodo);
 
-  //   // const a2=$button.parentNode;
-  //   $button.parentNode.parentElement.removeChild($button.parentNode);
-  //   // console.log(a2);
-  //   TODOS = TODOS.filter(todo=> todo.id !== id);
-  //   // console.log(TODOS);
-  //   update();
-  //   //e.target.parentElement.parentElement.removeChild(e.target.parentElement);
-  // }
+  }
 
+function completedTodo(){
+  TODOS = TODOS.filter(TODOS =>TODOS.done===false);
+  // console.log(TODOS);
+  update();
 }
-
-  
-  //Set The Counter
-  const $count = TODOS.filter(todo=> todo.done === false).length;
+//Set The Counter
+const $count = TODOS.filter(todo=> todo.done === false).length;
   if ($count === 1)
   $todoCount.innerHTML=$count +' item left' ;
   else
   $todoCount.innerHTML=$count +' items left' ;
-  
+
   //Hide the main section if the list is empty
   if(TODOS.length!==0){
-    document.querySelector(".main").style.display = "block";
-    console.log(TODOS);
+  document.querySelector(".main").style.display = "block";
   }else{
-    document.querySelector(".main").style.display = "none";
-
+  document.querySelector(".main").style.display = "none";
   }
 }
 
