@@ -239,7 +239,7 @@ function onStartEditing(id) {
 }
 function onEndEditing(id,e){
   const item = TODOS.find(todo => todo.id === id);
-  item.title = e.target.value.trim();
+  item.title = e.target.value;
   editingId = null;
   update();
 
