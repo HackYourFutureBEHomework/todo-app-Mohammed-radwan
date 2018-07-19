@@ -54,7 +54,6 @@ function update() {
 
       function completedTodo(){
         TODOS = TODOS.filter(TODOS =>TODOS.done===false);
-        // console.log(TODOS);
         update();
       }
       //Set The Counter
@@ -71,7 +70,6 @@ function update() {
         document.querySelector(".main").style.display = "none";
       }
       if(editingId===item.id){
-        //console.log('im editing');
         $li.className = "editing";
         const $input= document.createElement('input');
         $input.className = "edit";
