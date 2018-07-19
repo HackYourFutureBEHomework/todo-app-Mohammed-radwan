@@ -1,6 +1,7 @@
 let TODOS = [];
 //Flag to know the active function
 let flag=0;
+let editingId=null;
 
 function update() {
   const $todoList = document.querySelector(".todo-list");
@@ -32,6 +33,9 @@ function update() {
       $label.innerHTML = item.title;
       $li.appendChild($label);
 
+      $label.addEventListener('dblclick',onStartEditing.bind(null,item.id));
+      
+
       // Delete button
       const $button = document.createElement("button");
       $button.className = "destroy";
@@ -42,30 +46,40 @@ function update() {
       //completed Items
       const $completed=TODOS.filter(todo=>todo.done===true);
       const $clearCompleted =document.querySelector('.clear-completed');
-      // console.log($completed.length);
-        if($completed.length>0)
+      if($completed.length>0)
         document.querySelector('.clear-completed').style.display="block";
-        else
+      else
         document.querySelector('.clear-completed').style.display="none";
       $clearCompleted.addEventListener("click",completedTodo);
+
       function completedTodo(){
         TODOS = TODOS.filter(TODOS =>TODOS.done===false);
         // console.log(TODOS);
         update();
       }
       //Set The Counter
-        const $count = TODOS.filter(todo=> todo.done === false).length;
-        if ($count === 1)
+      const $count = TODOS.filter(todo=> todo.done === false).length;
+      if ($count === 1)
         $todoCount.innerHTML=$count +' item left' ;
-        else
+      else
         $todoCount.innerHTML=$count +' items left' ;
-    
-        //Hide the main section if the list is empty
-        if(TODOS.length!==0){
+  
+      //Hide the main section if the list is empty
+      if(TODOS.length!==0){
         document.querySelector(".main").style.display = "block";
-        }else{
+      }else{
         document.querySelector(".main").style.display = "none";
       }
+      if(editingId===item.id){
+        //console.log('im editing');
+        $li.className = "editing";
+        const $input= document.createElement('input');
+        $input.className = "edit";
+        $input.addEventListener('change',onEndEditing.bind(null,item.id));
+        $li.appendChild($input);
+        $input.value=item.title;
+      }
+       
     }
   }
   else if (flag===1){
@@ -91,6 +105,8 @@ function update() {
       const $label = document.createElement("label");
       $label.innerHTML = item.title;
       $li.appendChild($label);
+      $label.addEventListener('dblclick',onStartEditing.bind(null,item.id));
+
 
       // Delete button
       const $button = document.createElement("button");
@@ -113,8 +129,19 @@ function update() {
         TODOS = TODOS.filter(TODOS =>TODOS.done===false);
         // console.log(TODOS);
         update();
-      }       
+      }
+      if(editingId===item.id){
+        //console.log('im editing');
+        $li.className = "editing";
+        const $input= document.createElement('input');
+        $input.className = "edit";
+        $input.addEventListener('change',onEndEditing.bind(null,item.id));
+        $li.appendChild($input);
+        $input.value=item.title;
+      }   
+          
     }
+    
         //Set The Counter
       const $count = TODOS.filter(todo=> todo.done === false).length;
       if ($count === 1)
@@ -152,6 +179,8 @@ function update() {
       const $label = document.createElement("label");
       $label.innerHTML = item.title;
       $li.appendChild($label);
+      $label.addEventListener('dblclick',onStartEditing.bind(null,item.id));
+
 
       // Delete button
       const $button = document.createElement("button");
@@ -174,7 +203,16 @@ function update() {
         TODOS = TODOS.filter(TODOS =>TODOS.done===false);
         // console.log(TODOS);
         update();
-      }       
+      } 
+      if(editingId===item.id){
+        //console.log('im editing');
+        $li.className = "editing";
+        const $input= document.createElement('input');
+        $input.className = "edit";
+        $input.addEventListener('change',onEndEditing.bind(null,item.id));
+        $li.appendChild($input);
+        $input.value=item.title;
+      }         
     }
         //Set The Counter
       const $count = TODOS.filter(todo=> todo.done === false).length;
@@ -192,6 +230,19 @@ function update() {
    
   }
   
+}
+function onStartEditing(id) {
+  // console.log('Start editing');
+  editingId=id;
+  update();
+
+}
+function onEndEditing(id,e){
+  const item = TODOS.find(todo => todo.id === id);
+  item.title = e.target.value.trim();
+  editingId = null;
+  update();
+
 }
 //Check or unckeck the whole list.
 function onToggleAll(e){
